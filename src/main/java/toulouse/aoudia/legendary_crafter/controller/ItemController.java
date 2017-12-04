@@ -51,12 +51,12 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    ResponseEntity<BasicItem> removeItem(@PathVariable("id") String id){
+    ResponseEntity removeItem(@PathVariable("id") String id){
         BasicItem item = itemService.findById(id);
         if (item != null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         itemService.deleteById(id);
-        return new ResponseEntity<BasicItem>(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
