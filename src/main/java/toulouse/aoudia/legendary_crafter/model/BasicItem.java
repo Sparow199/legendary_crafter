@@ -6,17 +6,17 @@ import org.springframework.data.annotation.Id;
 public class BasicItem {
 
     @Id
-    private String basicItemId;
+    private String id;
 
     private String name;
     private int durability;
 
-    public String getBasicItemId() {
-        return basicItemId;
+    public String getId() {
+        return id;
     }
 
-    public void setBasicItemId(String basicItemId) {
-        this.basicItemId = basicItemId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -38,14 +38,14 @@ public class BasicItem {
     public BasicItem(String name, int durability) {
         this.name = name;
         this.durability = durability;
-        basicItemId = new ObjectId().toString();
+        id = new ObjectId().toString();
     }
 
     @Override
     public String toString() {
         return String.format(
             "BasicItem[id=%s, name='%s', durability='%s']",
-            basicItemId, name, durability);
+                id, name, durability);
     }
 
 }

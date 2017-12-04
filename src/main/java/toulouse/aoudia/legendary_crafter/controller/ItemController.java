@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import toulouse.aoudia.legendary_crafter.model.BasicItem;
 import toulouse.aoudia.legendary_crafter.service.ItemService;
-import toulouse.aoudia.legendary_crafter.service.UserService;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public class ItemController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     ResponseEntity<BasicItem> getItem(@PathVariable("id") String id){
         BasicItem item = itemService.findById(id);
-        if (item != null) {
+        if (item == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<BasicItem>(item, HttpStatus.OK);
@@ -46,17 +45,17 @@ public class ItemController {
         System.out.println(String.format("Creating Item : %s", item));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/item/{id}").buildAndExpand(item.getBasicItemId()).toUri());
+        headers.setLocation(ucBuilder.path("/api/item/{id}").buildAndExpand(item.getId()).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     ResponseEntity removeItem(@PathVariable("id") String id){
         BasicItem item = itemService.findById(id);
-        if (item != null) {
+        if (item == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        itemService.deleteById(id);
+        itemService.deleteById(item);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
