@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import toulouse.aoudia.legendary_crafter.model.Hero;
 import toulouse.aoudia.legendary_crafter.model.User;
 import toulouse.aoudia.legendary_crafter.service.UserService;
 
@@ -67,5 +68,23 @@ public class UserController {
 
         userService.updateUser(currentUser);
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{id}/hero")
+    public ResponseEntity<?> listAllUserHeroes(@PathVariable("id") String id) {
+        List<Hero> heroes = userService.findAllHeroes(id);
+        if (heroes.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<Hero>>(heroes, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{userId}/hero/{heroId}", method = RequestMethod.GET)
+    ResponseEntity<Hero> getHero(@PathVariable("userId") String userId, @PathVariable("heroId") String heroId){
+        Hero hero = userService.findHeroById(userId, heroId);
+        if (hero != null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Hero>(hero, HttpStatus.OK);
     }
 }

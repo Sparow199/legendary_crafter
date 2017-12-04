@@ -1,5 +1,6 @@
 package toulouse.aoudia.legendary_crafter.service;
 
+import toulouse.aoudia.legendary_crafter.model.Hero;
 import toulouse.aoudia.legendary_crafter.model.User;
 
 import java.util.ArrayList;
@@ -27,5 +28,15 @@ public class UserService {
 
     public void updateUser(User user){
         // ToDo
+    }
+
+    public List<Hero> findAllHeroes(String id){
+        // ToDo
+        return new ArrayList<>();
+    }
+
+    public Hero findHeroById(String userId, String heroId){
+        // ToDo
+        return null;
     }
 }
