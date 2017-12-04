@@ -31,7 +31,7 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     ResponseEntity<User> getUser(@PathVariable("id") String id){
         User user = userService.findById(id);
-        if (user != null) {
+        if (user == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
@@ -82,7 +82,7 @@ public class UserController {
     @RequestMapping(value = "/{userId}/hero/{heroId}", method = RequestMethod.GET)
     ResponseEntity<Hero> getHero(@PathVariable("userId") String userId, @PathVariable("heroId") String heroId){
         Hero hero = userService.findHeroById(userId, heroId);
-        if (hero != null) {
+        if (hero == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Hero>(hero, HttpStatus.OK);

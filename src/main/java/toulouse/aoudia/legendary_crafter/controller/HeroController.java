@@ -30,7 +30,7 @@ public class HeroController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     ResponseEntity<Hero> getHero(@PathVariable("id") String id){
         Hero hero = heroService.findById(id);
-        if (hero != null) {
+        if (hero == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<Hero>(hero, HttpStatus.OK);
@@ -72,7 +72,7 @@ public class HeroController {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     ResponseEntity removeItem(@PathVariable("id") String id){
         Hero hero = heroService.findById(id);
-        if (hero != null) {
+        if (hero == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         heroService.deleteById(id);
