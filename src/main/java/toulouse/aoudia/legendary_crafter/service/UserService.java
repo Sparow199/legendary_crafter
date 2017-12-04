@@ -1,11 +1,13 @@
 package toulouse.aoudia.legendary_crafter.service;
 
+import org.springframework.stereotype.Component;
 import toulouse.aoudia.legendary_crafter.model.Hero;
 import toulouse.aoudia.legendary_crafter.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class UserService {
     public List<User> findAllUsers(){
         // ToDo
