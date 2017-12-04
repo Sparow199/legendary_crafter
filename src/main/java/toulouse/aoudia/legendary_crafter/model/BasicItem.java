@@ -6,10 +6,34 @@ import org.springframework.data.annotation.Id;
 public class BasicItem {
 
     @Id
-    public String basicItemId;
+    private String basicItemId;
 
-    public String name;
-    public int durability;
+    private String name;
+    private int durability;
+
+    public String getBasicItemId() {
+        return basicItemId;
+    }
+
+    public void setBasicItemId(String basicItemId) {
+        this.basicItemId = basicItemId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getDurability() {
+        return durability;
+    }
+
+    public void setDurability(int durability) {
+        this.durability = durability;
+    }
 
     public BasicItem(String name, int durability) {
         this.name = name;
