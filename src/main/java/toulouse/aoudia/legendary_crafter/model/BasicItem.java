@@ -9,9 +9,9 @@ public class BasicItem {
     public String basicItemId;
 
     public String name;
-    public String durability;
+    public int durability;
 
-    public BasicItem(String name, String durability) {
+    public BasicItem(String name, int durability) {
         this.name = name;
         this.durability = durability;
         basicItemId = new ObjectId().toString();
