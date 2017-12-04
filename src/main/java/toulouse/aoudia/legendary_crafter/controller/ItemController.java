@@ -21,8 +21,6 @@ public class ItemController {
 
     @Autowired
     ItemService itemService;
-    @Autowired
-    UserService userService;
 
     @RequestMapping("/")
     ResponseEntity<List<BasicItem>> listAllItems(){
