@@ -1,5 +1,6 @@
 package toulouse.aoudia.legendary_crafter.model;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 public class BasicItem {
@@ -13,6 +14,7 @@ public class BasicItem {
     public BasicItem(String name, String durability) {
         this.name = name;
         this.durability = durability;
+        basicItemId = new ObjectId().toString();
     }
 
     @Override
