@@ -55,7 +55,7 @@ public class ItemController {
         if (item == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        itemService.deleteById(item);
+        itemService.deleteItem(item);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

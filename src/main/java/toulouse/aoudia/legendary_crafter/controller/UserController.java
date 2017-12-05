@@ -11,6 +11,7 @@ import toulouse.aoudia.legendary_crafter.model.User;
 import toulouse.aoudia.legendary_crafter.service.UserService;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/user")
@@ -72,11 +73,11 @@ public class UserController {
 
     @RequestMapping(value = "/{id}/hero")
     public ResponseEntity<?> listAllUserHeroes(@PathVariable("id") String id) {
-        List<Hero> heroes = userService.findAllHeroes(id);
+        Set<Hero> heroes = userService.findAllHeroes(id);
         if (heroes.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<Hero>>(heroes, HttpStatus.OK);
+        return new ResponseEntity<Set<Hero>>(heroes, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{userId}/hero/{heroId}", method = RequestMethod.GET)

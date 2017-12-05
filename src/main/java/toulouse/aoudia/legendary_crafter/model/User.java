@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
 import java.util.List;
+import java.util.Set;
 
 public class User {
     @Id
@@ -12,11 +13,11 @@ public class User {
 
     private String name;
 
-    private List<Hero> heroes;
+    private Set<Hero> heroes;
 
     private List<BasicItem> items;
 
-    public User(String name, List<Hero> heroes, List<BasicItem> items) {
+    public User(String name, Set<Hero> heroes, List<BasicItem> items) {
         this.id = new ObjectId().toString();
         this.name = name;
         this.heroes = heroes;
@@ -31,11 +32,11 @@ public class User {
         this.name = name;
     }
 
-    public List<Hero> getHeroes() {
+    public Set<Hero> getHeroes() {
         return heroes;
     }
 
-    public void setHeroes(List<Hero> heroes) {
+    public void setHeroes(Set<Hero> heroes) {
         this.heroes = heroes;
     }
 
