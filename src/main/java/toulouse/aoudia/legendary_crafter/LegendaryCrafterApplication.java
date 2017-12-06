@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import toulouse.aoudia.legendary_crafter.model.BasicItem;
 import toulouse.aoudia.legendary_crafter.model.User;
 import toulouse.aoudia.legendary_crafter.repository.ItemRepository;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableMongoRepositories
+@EnableScheduling
 public class LegendaryCrafterApplication implements CommandLineRunner {
 
     @Autowired
