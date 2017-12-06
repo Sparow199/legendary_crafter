@@ -7,11 +7,9 @@ import org.springframework.stereotype.Component;
 import toulouse.aoudia.legendary_crafter.model.BasicItem;
 import toulouse.aoudia.legendary_crafter.model.Hero;
 import toulouse.aoudia.legendary_crafter.model.User;
-import toulouse.aoudia.legendary_crafter.repository.HeroRepository;
 import toulouse.aoudia.legendary_crafter.repository.UserRepository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -19,40 +17,41 @@ public class HeroService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private HeroRepository heroRepository;
+    private UserService userService;
 
     public Set<Hero> findAllHero(){
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userRepository.findByName(authentication.getName())
+        return userService.getActiveUser()
                 .getHeroes();
     }
     public Hero findById(String id){
-        return heroRepository.findByName(id);
+        Optional<Hero> optional = userService.getActiveUser().getHeroes().stream()
+                .filter(hero -> hero.getName().equals(id)).findFirst();
+        return optional.isPresent()?optional.get():null;
     }
     public boolean isHeroExist(String id){
-        // ToDo
-        return false;
+        return userService.getActiveUser().getHeroes().stream()
+                .anyMatch(hero -> hero.getName().equals(id));
     }
     public void saveHero(String name){
         Hero hero = new Hero(name);
         saveHero(hero);
     }
     public void saveHero(Hero hero){
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByName(authentication.getName());
-        user.getHeroes().add(heroRepository.save(hero));
+        User user = userService.getActiveUser();
+        user.getHeroes().add(hero);
         userRepository.save(user);
     }
     public void stuffHero(Hero hero, BasicItem item){
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByName(authentication.getName());
+        User user = userService.getActiveUser();
         user.getHeroes().remove(hero);
         user = hero.equipStuff(user, item);
         user.getHeroes().add(hero);
         userRepository.save(user);
     }
     public void deleteById(String id){
-        // ToDo
+        User user = userService.getActiveUser();
+        user.getHeroes().remove(findById(id));
+        userRepository.save(user);
     }
 
 

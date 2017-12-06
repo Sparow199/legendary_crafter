@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import toulouse.aoudia.legendary_crafter.model.BasicItem;
 import toulouse.aoudia.legendary_crafter.service.ItemService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,12 +23,14 @@ public class ItemController {
     ItemService itemService;
 
     @RequestMapping("/")
-    ResponseEntity<List<BasicItem>> listAllItems(){
+    ResponseEntity<List<String>> listAllItems(){
         List<BasicItem> items = itemService.findAllItem();
         if (items.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<BasicItem>>(items, HttpStatus.OK);
+        List<String> itemsNames = new ArrayList<>();
+        items.stream().forEach(item -> itemsNames.add(item.getId()));
+        return new ResponseEntity<List<String>>(itemsNames, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -39,8 +42,8 @@ public class ItemController {
         return new ResponseEntity<BasicItem>(item, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(UriComponentsBuilder ucBuilder) {
+    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    public ResponseEntity<?> createItem(UriComponentsBuilder ucBuilder) {
         BasicItem item = itemService.createItem();
         System.out.println(String.format("Creating Item : %s", item));
 

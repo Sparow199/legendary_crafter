@@ -10,6 +10,8 @@ import toulouse.aoudia.legendary_crafter.model.BasicItem;
 import toulouse.aoudia.legendary_crafter.model.Hero;
 import toulouse.aoudia.legendary_crafter.service.HeroService;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -21,12 +23,14 @@ public class HeroController {
     HeroService heroService;
 
     @RequestMapping("/")
-    ResponseEntity<Set<Hero>> listAllHero(){
+    ResponseEntity<List<String>> listAllHero(){
         Set<Hero> heroes = heroService.findAllHero();
         if (heroes.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<Set<Hero>>(heroes, HttpStatus.OK);
+        List<String> names = new ArrayList<>();
+        heroes.stream().forEach(hero -> names.add(hero.getName()));
+        return new ResponseEntity<List<String>>(names, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -39,7 +43,7 @@ public class HeroController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<?> createhero(@RequestBody String name, UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<?> createHero(@RequestBody String name, UriComponentsBuilder ucBuilder) {
         System.out.println(String.format("Creating Hero : %s", name));
 
         if (heroService.isHeroExist(name)) {

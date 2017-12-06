@@ -10,7 +10,9 @@ import toulouse.aoudia.legendary_crafter.repository.ItemRepository;
 import toulouse.aoudia.legendary_crafter.repository.UserRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ItemService {
@@ -20,32 +22,29 @@ public class ItemService {
     @Autowired
     private ItemRepository itemRepository;
 
-    public List<BasicItem> findAllItem() {
+    @Autowired
+    private UserService userService;
 
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return userRepository.findByName(authentication.getName()).getItems();
+    public List<BasicItem> findAllItem() {
+        return userService.getActiveUser().getItems();
     }
     public BasicItem findById(String id){
-        return itemRepository.findById(id);
+        Optional<BasicItem> optional = userService.getActiveUser().getItems().stream().filter(item -> item.getId().equals(id)).findFirst();
+        return optional.isPresent()?optional.get():null;
     }
     public BasicItem createItem(){
-
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByName(authentication.getName());
-        BasicItem item = itemRepository.findAll().stream().findAny().get();
+        User user = userService.getActiveUser();
+        List<BasicItem> items = itemRepository.findAll();
+        Collections.shuffle(items);
+        BasicItem item = items.stream().findAny().get();
+        item.generateNewId();
         user.getItems().add(item);
         userRepository.save(user);
         return item;
     }
     public void deleteItem(BasicItem item){
-
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepository.findByName(authentication.getName());
-        for(BasicItem myItem : new ArrayList<>(user.getItems())){
-            if(myItem.getId().equals(item.getId())){
-                user.getItems().remove(myItem);
-            }
-        }
+        User user = userService.getActiveUser();
+        user.getItems().remove(item);
         userRepository.save(user);
     }
 }

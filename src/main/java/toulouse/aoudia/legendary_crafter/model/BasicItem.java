@@ -26,7 +26,7 @@ public class BasicItem {
     }
 
     @Id
-    private final String id;
+    private String id;
     private String name;
     private int durability;
     private Rarity rarity;
@@ -103,6 +103,10 @@ public class BasicItem {
                 ", rarity=" + rarity +
                 ", slots=" + slots +
                 '}';
+    }
+
+    public void generateNewId(){
+        this.id = new ObjectId().toString();
     }
 
     @Override
