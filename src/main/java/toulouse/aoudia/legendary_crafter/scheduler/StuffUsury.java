@@ -29,7 +29,6 @@ public class StuffUsury {
         userRepository.save(user);
     }
     private void use(Hero hero){
-        List<BasicItem> alreadyUsed = new ArrayList<>();
         for (Object o : hero.getStuff().values().stream().distinct().toArray()) {
             BasicItem item = (BasicItem) o;
             item.setDurability(item.getDurability() - 1);
