@@ -29,10 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                    .and()
 //                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
-        http
+        http.csrf().disable()
             .httpBasic()
                 .and()
                 .authorizeRequests()
+                .antMatchers("/api/user/create").permitAll()
                 .antMatchers("/api/**").hasAnyRole("USER")
                 .anyRequest().authenticated();
     }

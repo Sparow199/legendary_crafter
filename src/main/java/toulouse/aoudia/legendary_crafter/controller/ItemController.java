@@ -27,20 +27,20 @@ public class ItemController {
     ResponseEntity<List<String>> listAllItems(Principal user){
         List<BasicItem> items = itemService.findAllItem(user.getName());
         if (items.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         List<String> itemsNames = new ArrayList<>();
-        items.stream().forEach(item -> itemsNames.add(item.getId()));
-        return new ResponseEntity<List<String>>(itemsNames, HttpStatus.OK);
+        items.forEach(item -> itemsNames.add(item.getId()));
+        return new ResponseEntity<>(itemsNames, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     ResponseEntity<BasicItem> getItem(@PathVariable("id") String id, Principal user){
         BasicItem item = itemService.findById(id,user.getName());
         if (item == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<BasicItem>(item, HttpStatus.OK);
+        return new ResponseEntity<>(item, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)

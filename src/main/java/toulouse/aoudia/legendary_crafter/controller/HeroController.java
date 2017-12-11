@@ -26,23 +26,23 @@ public class HeroController {
     ResponseEntity<List<String>> listAllHero(Principal user){
         Set<Hero> heroes = heroService.findAllHero(user.getName());
         if (heroes.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         List<String> names = new ArrayList<>();
-        heroes.stream().forEach(hero -> names.add(hero.getName()));
-        return new ResponseEntity<List<String>>(names, HttpStatus.OK);
+        heroes.forEach(hero -> names.add(hero.getName()));
+        return new ResponseEntity<>(names, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     ResponseEntity<Hero> getHero(@PathVariable("id") String id,Principal user){
         Hero hero = heroService.findById(id,user.getName());
         if (hero == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Hero>(hero, HttpStatus.OK);
+        return new ResponseEntity<>(hero, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ResponseEntity<?> createHero(@RequestBody String HeroName, UriComponentsBuilder ucBuilder, Principal user) {
         System.out.println(String.format("Creating Hero : %s", HeroName));
 
@@ -69,7 +69,7 @@ public class HeroController {
         }
 
         heroService.stuffHero(currentHero, item,user.getName());
-        return new ResponseEntity<Hero>(currentHero, HttpStatus.OK);
+        return new ResponseEntity<>(currentHero, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
