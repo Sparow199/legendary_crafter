@@ -52,15 +52,44 @@ public class LegendaryCrafterApplication implements CommandLineRunner {
         itemRepository.save(new BasicItem("épée", 100, BasicItem.Rarity.Common, stats,Collections.singletonList(BasicItem.Slot.Left_Hand)));
         itemRepository.save(new BasicItem("épée", 100, BasicItem.Rarity.Legendary, stats, Collections.singletonList(BasicItem.Slot.Left_Hand)));
 
-        List<BasicItem.Slot> towHanded = new ArrayList<>();
-        towHanded.add(BasicItem.Slot.Right_Hand);
-        towHanded.add(BasicItem.Slot.Left_Hand);
+        List<BasicItem.Slot> multiPart = new ArrayList<>();
+        multiPart.add(BasicItem.Slot.Right_Hand);
+        multiPart.add(BasicItem.Slot.Left_Hand);
         stats = Collections.singletonMap(Hero.Stats.Might, 4);
-        itemRepository.save(new BasicItem("épée à deux main", 100, BasicItem.Rarity.Legendary, stats, towHanded));
-        itemRepository.save(new BasicItem("épée à deux main", 100, BasicItem.Rarity.Common, stats, towHanded));
+        itemRepository.save(new BasicItem("épée à deux main", 100, BasicItem.Rarity.Legendary, stats, multiPart));
+        itemRepository.save(new BasicItem("épée à deux main", 100, BasicItem.Rarity.Common, stats, multiPart));
 
-        itemRepository.save(new BasicItem("Hache de guerre", 200, BasicItem.Rarity.Legendary, stats, towHanded));
-        itemRepository.save(new BasicItem("Hache de guerre", 200, BasicItem.Rarity.Common, stats, towHanded));
+        itemRepository.save(new BasicItem("Hache de guerre", 200, BasicItem.Rarity.Legendary, stats, multiPart));
+        itemRepository.save(new BasicItem("Hache de guerre", 200, BasicItem.Rarity.Common, stats, multiPart));
+
+        stats = Collections.singletonMap(Hero.Stats.Shield, 1);
+        itemRepository.save(new BasicItem("Casque", 100, BasicItem.Rarity.Common, stats, Collections.singletonList(BasicItem.Slot.Head)));
+        itemRepository.save(new BasicItem("Casque", 100, BasicItem.Rarity.Legendary, stats, Collections.singletonList(BasicItem.Slot.Head)));
+
+        stats = Collections.singletonMap(Hero.Stats.Shield, 1);
+        itemRepository.save(new BasicItem("Bottes", 100, BasicItem.Rarity.Common, stats, Collections.singletonList(BasicItem.Slot.Foot)));
+        itemRepository.save(new BasicItem("Bottes", 100, BasicItem.Rarity.Legendary, stats, Collections.singletonList(BasicItem.Slot.Foot)));
+
+
+        stats = Collections.singletonMap(Hero.Stats.Shield, 2);
+        itemRepository.save(new BasicItem("Plastron", 200, BasicItem.Rarity.Common, stats, Collections.singletonList(BasicItem.Slot.Body)));
+        itemRepository.save(new BasicItem("Plastron", 200, BasicItem.Rarity.Legendary, stats, Collections.singletonList(BasicItem.Slot.Body)));
+
+
+        multiPart = new ArrayList<>();
+        multiPart.add(BasicItem.Slot.Head);
+        multiPart.add(BasicItem.Slot.Body);
+        multiPart.add(BasicItem.Slot.Foot);
+        stats = Collections.singletonMap(Hero.Stats.Shield, 5);
+        itemRepository.save(new BasicItem("Armure de plaque integral", 300, BasicItem.Rarity.Common, stats, multiPart));
+        itemRepository.save(new BasicItem("Armure de plaque integral", 300, BasicItem.Rarity.Legendary, stats, multiPart));
+
+        multiPart = new ArrayList<>();
+        multiPart.add(BasicItem.Slot.Head);
+        multiPart.add(BasicItem.Slot.Body);
+        stats = Collections.singletonMap(Hero.Stats.Shield, 2);
+        itemRepository.save(new BasicItem("Bure à capuche", 100, BasicItem.Rarity.Common, stats, multiPart));
+        itemRepository.save(new BasicItem("Bure à capuche", 100, BasicItem.Rarity.Legendary, stats, multiPart));
 
         User pierre = new User("Pierre");
         userRepository.save(pierre);
