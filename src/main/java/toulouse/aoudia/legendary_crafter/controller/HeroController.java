@@ -13,6 +13,7 @@ import toulouse.aoudia.legendary_crafter.service.HeroService;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -43,17 +44,26 @@ public class HeroController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public ResponseEntity<?> createHero(@RequestBody String HeroName, UriComponentsBuilder ucBuilder, Principal user) {
-        System.out.println(String.format("Creating Hero : %s", HeroName));
+    public ResponseEntity<?> createHero(@RequestBody Map<String, String> heroName, UriComponentsBuilder ucBuilder, Principal user) {
+        String name = null;
 
-        if (heroService.isHeroExist(HeroName,user.getName())) {
-            System.err.println(String.format("Unable to create. A Hero with name %s already exist", HeroName));
+        if (heroName.containsKey("name")){
+            name = heroName.get("name");
+        }else{
+            System.err.println(String.format("No name was specified."));
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        System.out.println(String.format("Creating Hero : %s", name));
+
+        if (heroService.isHeroExist(name,user.getName())) {
+            System.err.println(String.format("Unable to create. A Hero with name %s already exist", name));
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
-        heroService.saveHero(HeroName,user.getName());
+        heroService.saveHero(name,user.getName());
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/api/hero/{id}").buildAndExpand(HeroName).toUri());
+        headers.setLocation(ucBuilder.path("/api/hero/{id}").buildAndExpand(name).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
