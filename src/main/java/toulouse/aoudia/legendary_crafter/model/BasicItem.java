@@ -74,8 +74,9 @@ public class BasicItem {
         return durability;
     }
 
-    public void setDurability(int durability) {
+    public int setDurability(int durability) {
         this.durability = durability;
+        return this.durability;
     }
 
     public Rarity getRarity() {

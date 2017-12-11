@@ -29,17 +29,11 @@ public class StuffUsury {
         userRepository.save(user);
     }
     private void use(Hero hero){
-        for (Object o : hero.getStuff().values().stream().distinct().toArray()) {
-            BasicItem item = (BasicItem) o;
-            item.setDurability(item.getDurability() - 1);
-            if(item.getDurability() <= 0){
-                System.out.println(hero.getName() + " lose his " + item.getName());
-                for(BasicItem.Slot slot : new HashSet<>(hero.getStuff().keySet())){
-                    if(hero.getStuff().get(slot).equals(item)){
-                        hero.getStuff().remove(slot);
-                    }
-                }
-            }
-        }
+        hero.getStuff().values().stream()
+                .distinct()
+                .filter(item -> item.setDurability(item.getDurability() - 1) > 0)
+                .forEach(item -> hero.getStuff().keySet().stream()
+                        .filter(slot -> hero.getStuff().get(slot).equals(item))
+                        .forEach(slot -> hero.getStuff().remove(slot)));
     }
 }
