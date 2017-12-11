@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.web.JsonPath;
 
 import java.util.List;
+import java.util.Map;
 
 public class BasicItem {
 
@@ -30,6 +31,7 @@ public class BasicItem {
     private String name;
     private int durability;
     private Rarity rarity;
+    private Map<Hero.Stats, Integer> stats;
     private List<Slot> slots;
 
     public BasicItem() {
@@ -42,19 +44,22 @@ public class BasicItem {
             @JsonProperty("name")String name,
             @JsonProperty("durability")int durability,
             @JsonProperty("rarity")Rarity rarity,
+            @JsonProperty("stats")Map<Hero.Stats, Integer> stats,
             @JsonProperty("slots")List<Slot> slots) {
         this.id = id;
         this.name = name;
         this.durability = durability;
         this.rarity = rarity;
+        this.stats = stats;
         this.slots = slots;
     }
 
-    public BasicItem(String name, int durability, Rarity rarity, List<Slot> slots) {
+    public BasicItem(String name, int durability, Rarity rarity, Map<Hero.Stats, Integer> stats, List<Slot> slots) {
         this.id = new ObjectId().toString();
         this.name = name;
         this.durability = durability;
         this.rarity = rarity;
+        this.stats = stats;
         this.slots = slots;
     }
 
@@ -85,6 +90,14 @@ public class BasicItem {
 
     public void setRarity(Rarity rarity) {
         this.rarity = rarity;
+    }
+
+    public Map<Hero.Stats, Integer> getStats() {
+        return stats;
+    }
+
+    public void setStats(Map<Hero.Stats, Integer> stats) {
+        this.stats = stats;
     }
 
     public List<Slot> getSlots() {

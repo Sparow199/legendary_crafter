@@ -9,6 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 public class Hero {
+
+    public enum Stats{
+        Might,
+        Shield
+    }
+
     @Id
     private String id;
     private String name;
@@ -49,6 +55,18 @@ public class Hero {
             this.stuff.put(slot, item);
         }
         return user;
+    }
+
+    public Map<Stats, Integer> getStats(){
+        Map<Stats, Integer> statistics = new HashMap();
+        stuff.values().stream()
+                .distinct()
+                .forEach(item -> item.getStats().keySet().stream()
+                        .forEach(stats ->
+                                statistics.put(stats,
+                                        item.getStats().get(stats) +
+                                                (statistics.containsKey(stats)?statistics.get(stats):0))));
+        return statistics;
     }
 
     @Override
