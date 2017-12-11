@@ -39,12 +39,25 @@ public class LegendaryCrafterApplication implements CommandLineRunner {
 
         // save a couple of BasicItems
         itemRepository.save(new BasicItem("bouclier", 200, BasicItem.Rarity.Common, Collections.singletonList(BasicItem.Slot.Left_Hand)));
-        itemRepository.save(new BasicItem("bouclier", 110, BasicItem.Rarity.Legendary, Collections.singletonList(BasicItem.Slot.Left_Hand)));
+        itemRepository.save(new BasicItem("bouclier", 200, BasicItem.Rarity.Legendary, Collections.singletonList(BasicItem.Slot.Left_Hand)));
+
+        itemRepository.save(new BasicItem("bouclier", 200, BasicItem.Rarity.Common, Collections.singletonList(BasicItem.Slot.Right_Hand)));
+        itemRepository.save(new BasicItem("bouclier", 200, BasicItem.Rarity.Legendary, Collections.singletonList(BasicItem.Slot.Right_Hand)));
+
         itemRepository.save(new BasicItem("épée", 100, BasicItem.Rarity.Common, Collections.singletonList(BasicItem.Slot.Right_Hand)));
+        itemRepository.save(new BasicItem("épée", 100, BasicItem.Rarity.Legendary, Collections.singletonList(BasicItem.Slot.Right_Hand)));
+
+        itemRepository.save(new BasicItem("épée", 100, BasicItem.Rarity.Common, Collections.singletonList(BasicItem.Slot.Left_Hand)));
+        itemRepository.save(new BasicItem("épée", 100, BasicItem.Rarity.Legendary, Collections.singletonList(BasicItem.Slot.Left_Hand)));
+
         List<BasicItem.Slot> towHanded = new ArrayList<>();
         towHanded.add(BasicItem.Slot.Right_Hand);
         towHanded.add(BasicItem.Slot.Left_Hand);
         itemRepository.save(new BasicItem("épée à deux main", 100, BasicItem.Rarity.Legendary, towHanded));
+        itemRepository.save(new BasicItem("épée à deux main", 100, BasicItem.Rarity.Common, towHanded));
+
+        itemRepository.save(new BasicItem("Hache de guerre", 200, BasicItem.Rarity.Legendary, towHanded));
+        itemRepository.save(new BasicItem("Hache de guerre", 200, BasicItem.Rarity.Common, towHanded));
 
         User pierre = new User("Pierre");
         userRepository.save(pierre);

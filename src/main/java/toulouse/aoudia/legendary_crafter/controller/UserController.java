@@ -10,6 +10,7 @@ import toulouse.aoudia.legendary_crafter.model.Hero;
 import toulouse.aoudia.legendary_crafter.model.User;
 import toulouse.aoudia.legendary_crafter.service.UserService;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -25,20 +26,20 @@ public class UserController {
     ResponseEntity<List<String>> listAllUser(){
         List<User> users = userService.findAllUsers();
         if (users.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         List<String> userNames = new ArrayList<>();
-        users.stream().forEach(user -> userNames.add(user.getName()));
-        return new ResponseEntity<List<String>>(userNames, HttpStatus.OK);
+        users.forEach(user -> userNames.add(user.getName()));
+        return new ResponseEntity<>(userNames, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     ResponseEntity<User> getUser(@PathVariable("id") String id){
         User user = userService.findById(id);
         if (user == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<User>(user, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
@@ -60,19 +61,33 @@ public class UserController {
     public ResponseEntity<List<String>> listAllUserHeroes(@PathVariable("id") String id) {
         Set<Hero> heroes = userService.findAllHeroes(id);
         if (heroes.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         List<String> heroNames = new ArrayList<>();
-        heroes.stream().forEach(hero -> heroNames.add(hero.getName()));
-        return new ResponseEntity<List<String>>(heroNames, HttpStatus.OK);
+        heroes.forEach(hero -> heroNames.add(hero.getName()));
+        return new ResponseEntity<>(heroNames, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{userId}/hero/{heroId}", method = RequestMethod.GET)
     ResponseEntity<Hero> getHero(@PathVariable("userId") String userId, @PathVariable("heroId") String heroId){
         Hero hero = userService.findHeroById(userId, heroId);
         if (hero == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Hero>(hero, HttpStatus.OK);
+        return new ResponseEntity<>(hero, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    ResponseEntity<?> createUser(@RequestBody String userName,UriComponentsBuilder ucBuilder){
+        System.out.println(String.format("Creating user : %s", userName));
+        if(userService.isUserExist(userName)){
+            System.err.println(String.format("Unable to create. A Hero with name %s already exist", userName));
+            return new ResponseEntity(HttpStatus.CONFLICT);
+        }
+        userService.saveUser(new User(userName));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(userName).toUri());
+        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+    }
+
 }
