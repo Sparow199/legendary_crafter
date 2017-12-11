@@ -25,15 +25,15 @@ public class ItemService {
     @Autowired
     private UserService userService;
 
-    public List<BasicItem> findAllItem() {
-        return userService.getActiveUser().getItems();
+    public List<BasicItem> findAllItem(String name) {
+        return userRepository.findByName(name).getItems();
     }
-    public BasicItem findById(String id){
-        Optional<BasicItem> optional = userService.getActiveUser().getItems().stream().filter(item -> item.getId().equals(id)).findFirst();
-        return optional.isPresent()?optional.get():null;
+    public BasicItem findById(String id, String name){
+        Optional<BasicItem> optional = userRepository.findByName(name).getItems().stream().filter(item -> item.getId().equals(id)).findFirst();
+        return optional.orElse(null);
     }
-    public BasicItem createItem(){
-        User user = userService.getActiveUser();
+    public BasicItem createItem(String name){
+        User user = userRepository.findByName(name);
         List<BasicItem> items = itemRepository.findAll();
         Collections.shuffle(items);
         BasicItem item = items.stream().findAny().get();
@@ -42,8 +42,8 @@ public class ItemService {
         userRepository.save(user);
         return item;
     }
-    public void deleteItem(BasicItem item){
-        User user = userService.getActiveUser();
+    public void deleteItem(BasicItem item, String name){
+        User user = userRepository.findByName(name);
         user.getItems().remove(item);
         userRepository.save(user);
     }

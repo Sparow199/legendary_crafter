@@ -1,8 +1,6 @@
 package toulouse.aoudia.legendary_crafter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import toulouse.aoudia.legendary_crafter.model.BasicItem;
 import toulouse.aoudia.legendary_crafter.model.Hero;
@@ -19,38 +17,39 @@ public class HeroService {
     @Autowired
     private UserService userService;
 
-    public Set<Hero> findAllHero(){
-        return userService.getActiveUser()
+    public Set<Hero> findAllHero(String name){
+        return userRepository.findByName(name)
                 .getHeroes();
     }
-    public Hero findById(String id){
-        Optional<Hero> optional = userService.getActiveUser().getHeroes().stream()
+
+    public Hero findById(String id,String name){
+        Optional<Hero> optional = userRepository.findByName(name).getHeroes().stream()
                 .filter(hero -> hero.getName().equals(id)).findFirst();
-        return optional.isPresent()?optional.get():null;
+        return optional.orElse(null);
     }
-    public boolean isHeroExist(String id){
-        return userService.getActiveUser().getHeroes().stream()
+    public boolean isHeroExist(String id,String name){
+        return userRepository.findByName(name).getHeroes().stream()
                 .anyMatch(hero -> hero.getName().equals(id));
     }
-    public void saveHero(String name){
-        Hero hero = new Hero(name);
-        saveHero(hero);
+    public void saveHero(String HeroName, String name){
+        Hero hero = new Hero(HeroName);
+        saveHero(hero,name);
     }
-    public void saveHero(Hero hero){
-        User user = userService.getActiveUser();
+    public void saveHero(Hero hero,String name){
+        User user = userRepository.findByName(name);
         user.getHeroes().add(hero);
         userRepository.save(user);
     }
-    public void stuffHero(Hero hero, BasicItem item){
-        User user = userService.getActiveUser();
+    public void stuffHero(Hero hero, BasicItem item, String name){
+        User user = userRepository.findByName(name);
         user.getHeroes().remove(hero);
         user = hero.equipStuff(user, item);
         user.getHeroes().add(hero);
         userRepository.save(user);
     }
-    public void deleteById(String id){
-        User user = userService.getActiveUser();
-        user.getHeroes().remove(findById(id));
+    public void deleteById(String id, String name){
+        User user = userRepository.findByName(name);
+        user.getHeroes().remove(findById(id,name));
         userRepository.save(user);
     }
 

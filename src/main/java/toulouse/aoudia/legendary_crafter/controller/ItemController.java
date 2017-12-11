@@ -12,6 +12,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import toulouse.aoudia.legendary_crafter.model.BasicItem;
 import toulouse.aoudia.legendary_crafter.service.ItemService;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class ItemController {
     ItemService itemService;
 
     @RequestMapping("/")
-    ResponseEntity<List<String>> listAllItems(){
-        List<BasicItem> items = itemService.findAllItem();
+    ResponseEntity<List<String>> listAllItems(Principal user){
+        List<BasicItem> items = itemService.findAllItem(user.getName());
         if (items.isEmpty()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
@@ -34,8 +35,8 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    ResponseEntity<BasicItem> getItem(@PathVariable("id") String id){
-        BasicItem item = itemService.findById(id);
+    ResponseEntity<BasicItem> getItem(@PathVariable("id") String id, Principal user){
+        BasicItem item = itemService.findById(id,user.getName());
         if (item == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
@@ -43,8 +44,8 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/", method = RequestMethod.PUT)
-    public ResponseEntity<?> createItem(UriComponentsBuilder ucBuilder) {
-        BasicItem item = itemService.createItem();
+    public ResponseEntity<?> createItem(UriComponentsBuilder ucBuilder, Principal user) {
+        BasicItem item = itemService.createItem(user.getName());
         System.out.println(String.format("Creating Item : %s", item));
 
         HttpHeaders headers = new HttpHeaders();
@@ -53,12 +54,12 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    ResponseEntity removeItem(@PathVariable("id") String id){
-        BasicItem item = itemService.findById(id);
+    ResponseEntity removeItem(@PathVariable("id") String id, Principal user){
+        BasicItem item = itemService.findById(id,user.getName());
         if (item == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        itemService.deleteItem(item);
+        itemService.deleteItem(item,user.getName());
         return new ResponseEntity(HttpStatus.OK);
     }
 }

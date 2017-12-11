@@ -31,12 +31,14 @@ public class StuffUsury {
     private void use(Hero hero){
         for (Object o : hero.getStuff().values().stream().distinct().toArray()) {
             BasicItem item = (BasicItem) o;
-            item.setDurability(item.getDurability() - 1);
-            if(item.getDurability() <= 0){
-                System.out.println(hero.getName() + " lose his " + item.getName());
-                for(BasicItem.Slot slot : new HashSet<>(hero.getStuff().keySet())){
-                    if(hero.getStuff().get(slot).equals(item)){
-                        hero.getStuff().remove(slot);
+            if(item.getRarity()!=BasicItem.Rarity.Legendary) {
+                item.setDurability(item.getDurability() - 1);
+                if (item.getDurability() <= 0) {
+                    System.out.println(hero.getName() + " lose his " + item.getName());
+                    for (BasicItem.Slot slot : new HashSet<>(hero.getStuff().keySet())) {
+                        if (hero.getStuff().get(slot).equals(item)) {
+                            hero.getStuff().remove(slot);
+                        }
                     }
                 }
             }

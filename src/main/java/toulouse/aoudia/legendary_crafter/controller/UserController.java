@@ -28,7 +28,7 @@ public class UserController {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         List<String> userNames = new ArrayList<>();
-        users.stream().forEach(user -> userNames.add(user.getName()));
+        users.forEach(user -> userNames.add(user.getName()));
         return new ResponseEntity<List<String>>(userNames, HttpStatus.OK);
     }
 
