@@ -16,6 +16,7 @@ public class User {
     private String id;
 
     private String name;
+    private String password;
 
     private Set<Hero> heroes;
 
@@ -29,16 +30,18 @@ public class User {
     }
 
     @JsonCreator
-    public User(@JsonProperty("name")String name){
+    public User(@JsonProperty("name")String name,@JsonProperty("password")String password){
         this.id = new ObjectId().toString();
         this.name = name;
+        this.password = password;
         this.heroes = new HashSet<>();
         this.items = new ArrayList<>();
     }
 
-    public User(String name, Set<Hero> heroes, List<BasicItem> items) {
+    public User(String name, String password, Set<Hero> heroes, List<BasicItem> items) {
         this.id = new ObjectId().toString();
         this.name = name;
+        this.password = password;
         this.heroes = heroes;
         this.items = items;
     }
@@ -49,6 +52,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Set<Hero> getHeroes() {

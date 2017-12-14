@@ -6,14 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+import toulouse.aoudia.legendary_crafter.config.WebSecurityCustomConfig;
 import toulouse.aoudia.legendary_crafter.model.Hero;
 import toulouse.aoudia.legendary_crafter.model.User;
 import toulouse.aoudia.legendary_crafter.service.UserService;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/user")
@@ -78,13 +76,21 @@ public class UserController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    ResponseEntity<?> createUser(@RequestBody String userName,UriComponentsBuilder ucBuilder){
+    ResponseEntity<?> createUser(@RequestBody Map<String, String> credentials, UriComponentsBuilder ucBuilder) throws Exception {
+        String userName = null;
+        String password = null;
+        if(credentials.containsKey("username") && credentials.containsKey("password")) {
+            userName = credentials.get("username");
+            password = credentials.get("password");
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
         System.out.println(String.format("Creating user : %s", userName));
         if(userService.isUserExist(userName)){
             System.err.println(String.format("Unable to create. A Hero with name %s already exist", userName));
             return new ResponseEntity(HttpStatus.CONFLICT);
         }
-        userService.saveUser(new User(userName));
+        userService.saveUser(new User(userName, password));
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(userName).toUri());
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
