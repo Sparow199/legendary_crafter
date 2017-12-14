@@ -7,9 +7,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+
+import java.util.Collections;
 
 @EnableWebSecurity
 public class MultiHttpSecurityCustomConfig {
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
@@ -17,34 +22,18 @@ public class MultiHttpSecurityCustomConfig {
     }
 
     @Configuration
-    @Order(1)
     public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
-            http.csrf().disable()
-                    .antMatcher("/api/user/create")
-                    .antMatcher("/api/**")
-                    .authorizeRequests()
-                    .anyRequest().authenticated()
-                    .and()
+            http
+                .csrf()
+                    .disable()
+                .authorizeRequests()
+                    .antMatchers("/api/user/create")
+                        .permitAll()
+                    .antMatchers("/api/**")
+                        .authenticated()
+                .and()
                     .httpBasic();
-        }
-    }
-
-    @Configuration
-    public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.csrf().disable()
-                .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                    .and()
-                .logout()
-                    .permitAll()
-                    .and()
-                    .authorizeRequests()
-                    .anyRequest().authenticated();
         }
     }
 }
