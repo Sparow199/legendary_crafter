@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{#userList}}
+    <h4>{{name}}</h4>
+    {{#heroes}}
+        <li><a href="/app/inspection/{{#userList}}{{name}}{{/userList}}/{{name}}">{{name}}</a></li>
+    {{/heroes}}
+{{/userList}}
+</body>
+</html>

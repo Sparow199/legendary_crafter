@@ -24,8 +24,8 @@ public class StuffUsury {
                 .forEach(this::use);
     }
     private void use(User user){
-//        user.getHeroes().stream()
-//                .forEach(this::use);
+        user.getHeroes().stream()
+                .forEach(this::use);
         userRepository.save(user);
     }
     private void use(Hero hero){
