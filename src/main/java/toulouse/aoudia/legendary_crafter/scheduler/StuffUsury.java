@@ -29,11 +29,11 @@ public class StuffUsury {
         userRepository.save(user);
     }
     private void use(Hero hero){
-        hero.getStuff().values().stream()
+        (new ArrayList<BasicItem>(hero.getStuff().values())).stream()
                 .distinct()
                 .filter(item -> !item.getRarity().equals(BasicItem.Rarity.Legendary))
                 .filter(item -> item.setDurability(item.getDurability() - 1) <= 0)
-                .forEach(item -> hero.getStuff().keySet().stream()
+                .forEach(item -> (new ArrayList<BasicItem.Slot>(hero.getStuff().keySet())).stream()
                         .filter(slot -> hero.getStuff().get(slot).equals(item))
                         .forEach(slot -> hero.getStuff().remove(slot)));
     }
