@@ -9,9 +9,9 @@
 
     <h2>List of Heroes</h2>
     {{#heroes}}
-        <tr>
-            <td><a href="/app/hero/{{id}}">{{name}}</a></td>
-        </tr>
+        <ul>
+            <li><a href="/app/hero/{{name}}">{{name}}</a></li>
+        </ul>
     {{/heroes}}
 
     <h2> Hero creation</h2>
@@ -19,5 +19,8 @@
             <input type="text" name="heroName"  title="name of the hero"/>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+
+    <H2> tools</H2>
+    <a href="/app/list">list of all heroes of the game </a>
 </body>
 </html>

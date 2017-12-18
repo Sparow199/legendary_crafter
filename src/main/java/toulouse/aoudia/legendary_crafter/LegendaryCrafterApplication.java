@@ -12,6 +12,7 @@ import toulouse.aoudia.legendary_crafter.model.Hero;
 import toulouse.aoudia.legendary_crafter.model.User;
 import toulouse.aoudia.legendary_crafter.repository.ItemRepository;
 import toulouse.aoudia.legendary_crafter.repository.UserRepository;
+import toulouse.aoudia.legendary_crafter.service.ItemService;
 
 import java.util.*;
 
@@ -24,6 +25,8 @@ public class LegendaryCrafterApplication implements CommandLineRunner {
     private ItemRepository itemRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ItemService itemService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(LegendaryCrafterApplication.class, args);
@@ -93,7 +96,19 @@ public class LegendaryCrafterApplication implements CommandLineRunner {
 
         User user = new User("pierre", "password");
         userRepository.save(user);
-        user.getHeroes().add(new Hero("conan le barbare"));
+
+
+        Hero hero = new Hero("conan le barbare");
+
+        user.getItems().add(itemService.createItem("pierre"));
+        user.getItems().add(itemService.createItem("pierre"));
+        user.getItems().add(itemService.createItem("pierre"));
+        user.getItems().add(itemService.createItem("pierre"));
+        user.getItems().add(itemService.createItem("pierre"));
+        hero.equipStuff(user,user.getItems().get(0));
+
+        user.getHeroes().add(hero);
         userRepository.save(user);
+
     }
 }

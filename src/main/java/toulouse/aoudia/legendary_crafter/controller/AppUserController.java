@@ -3,10 +3,8 @@ package toulouse.aoudia.legendary_crafter.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import toulouse.aoudia.legendary_crafter.model.BasicItem;
 import toulouse.aoudia.legendary_crafter.model.Hero;
 import toulouse.aoudia.legendary_crafter.repository.UserRepository;
 import toulouse.aoudia.legendary_crafter.service.HeroService;
@@ -39,6 +37,16 @@ public class AppUserController {
         model.addAttribute("heroes",heroes);
         model.addAttribute("name",user.getName());
         return "user";
+    }
+
+    @RequestMapping(value = "/hero/{id}", method = RequestMethod.GET)
+    public String getHeroById(Model model, Principal user, @PathVariable String id){
+        Hero hero = heroService.findById(id,user.getName());
+        model.addAttribute("hero",hero);
+        model.addAttribute("username",user.getName());
+        model.addAttribute("slot", BasicItem.Slot.values());
+        model.addAttribute("inventaire",userService.findById(user.getName()).getItems());
+        return "hero";
     }
 
 }
