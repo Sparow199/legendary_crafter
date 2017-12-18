@@ -2,14 +2,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+
+    <script type="text/javascript" src="/js/jquery-3.1.1.slim.min.js"></script>
+    <script type="text/javascript" src="/js/tether.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script  type="text/javascript" src="/js/login.js"></script>
+
     <title>Spring Security Example </title>
+
 </head>
 <body>
-<h1>Login</h1>
-<form action="/login" method="post">
-    <input type="text" name="username" />
-    <input type="password" name="password" />
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+<!--<h1>Login</h1>-->
+
+<!--<form action="/login" method="post">-->
+    <!--<input type="text" name="username" />-->
+    <!--<input type="password" name="password" />-->
+    <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+<!--</form>-->
+
+    <div class="modal-dialog">
+        <div class="loginmodal-container">
+            <h1>Login to Your Account</h1><br>
+
+            <form action="/login" method="post">
+                <input type="text" name="username" placeholder="Username">
+                <input type="password" name="password" placeholder="Password">
+                <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+            </form>
+
+            <div class="login-help">
+                <a href="#">Register</a>
+            </div>
+        </div>
+    </div>
+
+
+
 </body>
 </html>

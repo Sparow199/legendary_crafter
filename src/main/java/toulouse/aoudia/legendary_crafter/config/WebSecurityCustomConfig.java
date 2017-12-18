@@ -46,9 +46,13 @@ public class WebSecurityCustomConfig {
     public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http.csrf().disable()
+            http
+                    .csrf()
+                    .disable()
                     .authorizeRequests()
-                    .anyRequest()
+                    .antMatchers("/resources/static/**")
+                    .permitAll()
+                    .antMatchers("/app/**","/")
                     .authenticated()
                     .and()
                     .formLogin()
