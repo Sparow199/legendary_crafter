@@ -18,7 +18,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/hero")
-public class HeroController {
+public class ApiHeroController {
 
     @Autowired
     HeroService heroService;

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Greetings {{name}}</h1>
+
+    <h2>List of Heroes</h2>
+    {{#heroes}}
+        <tr>
+            <td><a href="/app/hero/{{id}}">{{name}}</a></td>
+        </tr>
+    {{/heroes}}
+
+    <h2> Hero creation</h2>
+        <form action="/app/" method="post">
+            <input type="text" name="heroName"  title="name of the hero"/>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+</body>
+</html>

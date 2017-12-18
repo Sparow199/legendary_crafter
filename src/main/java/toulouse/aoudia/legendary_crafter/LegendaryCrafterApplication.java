@@ -90,5 +90,10 @@ public class LegendaryCrafterApplication implements CommandLineRunner {
         stats = Collections.singletonMap(Hero.Stats.Shield, 2);
         itemRepository.save(new BasicItem("Bure à capuche", 100, BasicItem.Rarity.Common, stats, multiPart));
         itemRepository.save(new BasicItem("Bure à capuche", 100, BasicItem.Rarity.Legendary, stats, multiPart));
+
+        User user = new User("pierre", "password");
+        userRepository.save(user);
+        user.getHeroes().add(new Hero("conan le barbare"));
+        userRepository.save(user);
     }
 }

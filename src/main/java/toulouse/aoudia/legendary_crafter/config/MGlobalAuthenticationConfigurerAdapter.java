@@ -14,7 +14,7 @@ import toulouse.aoudia.legendary_crafter.model.User;
 import toulouse.aoudia.legendary_crafter.repository.UserRepository;
 
 @Configuration
-public class ApiSecurityCustomConfig extends GlobalAuthenticationConfigurerAdapter {
+public class MGlobalAuthenticationConfigurerAdapter extends GlobalAuthenticationConfigurerAdapter {
     @Autowired
     UserRepository userRepository;
 
