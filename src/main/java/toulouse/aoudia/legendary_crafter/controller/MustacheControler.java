@@ -47,7 +47,6 @@ public class MustacheControler {
         return "create";
     }
 
-
     @RequestMapping(value = "/auth",method = RequestMethod.POST)
     public void login(@RequestParam Map<String, String> map, HttpServletRequest request, HttpServletResponse response){
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
