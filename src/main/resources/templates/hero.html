@@ -16,18 +16,19 @@
     <h2>Stuff</h2>
     {{#stuff}}
         {{#entrySet}}
-        <h4>{{key}} : {{value.name}} {{value.durability}}</h4>
+        <h4>{{key}} : {{value.name}} {{value.durability}} {{value.stats}}</h4>
         {{/entrySet}}
     {{/stuff}}
 {{/hero}}
 {{#hero}}
 <form action="/app/hero/{{name}}" method="post">
     {{/hero}}
-    <input type="hidden" value="create" name="methode" />
-    <button type="submit" name="itemId" value="" class="btn-link">create a new item</button>
+    <input type="hidden" value="" name="itemId" />
+    <button type="submit" name="methode" value="create" class="btn-link">create a new item</button>
+    <button type="submit" name="methode" value="legendary" class="btn-link">show only legendary</button>
 </form>
 {{#inventaire}}
-    <p>{{slots}} {{name}} {{durability}} {{rarity}}
+    <p>{{slots}} {{name}} {{durability}} {{rarity}} {{stats}}
         {{#hero}}
         <form action="/app/hero/{{name}}" method="post">
         {{/hero}}

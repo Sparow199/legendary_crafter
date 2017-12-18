@@ -15,6 +15,7 @@ import toulouse.aoudia.legendary_crafter.service.ItemService;
 import toulouse.aoudia.legendary_crafter.service.UserService;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -74,21 +75,39 @@ public class AppController {
 
     @RequestMapping(value = "/hero/{id}", method = RequestMethod.POST)
     public String equipHero(Model model, Principal user, @PathVariable String id,@RequestParam String itemId, @RequestParam String methode){
-        if(methode.equals("equip")) {
-            BasicItem basicItem = itemService.findById(itemId, user.getName());
-            heroService.stuffHero(heroService.findById(id, user.getName()), basicItem, user.getName());
-        }else if(methode.equals("delete")){
-            BasicItem basicItem = itemService.findById(itemId, user.getName());
-            itemService.deleteItem(basicItem,user.getName());
-        }else if(methode.equals("create")){
-            itemService.createItem(user.getName());
+        String name=user.getName();
+        List<BasicItem> itemList = userService.findById(name).getItems();
+
+        switch (methode) {
+            case "equip": {
+                BasicItem basicItem = itemService.findById(itemId, name);
+                heroService.stuffHero(heroService.findById(id, name), basicItem, name);
+                break;
+            }
+            case "delete": {
+                BasicItem basicItem = itemService.findById(itemId, name);
+                itemService.deleteItem(basicItem, name);
+                break;
+            }
+            case "create":
+                itemService.createItem(name);
+                break;
+            case "legendary":
+                List<BasicItem> tmp = new ArrayList<>();
+                for (BasicItem item : itemList) {
+                    if (item.getRarity() == BasicItem.Rarity.Legendary) {
+                        tmp.add(item);
+                    }
+                }
+                itemList = tmp;
+                break;
         }
 
-        Hero hero = heroService.findById(id, user.getName());
+        Hero hero = heroService.findById(id, name);
         model.addAttribute("hero",hero);
-        model.addAttribute("username",user.getName());
+        model.addAttribute("username",name);
         model.addAttribute("slot", BasicItem.Slot.values());
-        model.addAttribute("inventaire",userService.findById(user.getName()).getItems());
+        model.addAttribute("inventaire",itemList);
         return "hero";
     }
 
