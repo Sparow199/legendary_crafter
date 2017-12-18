@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Vive {{hero.name}}</h1>
+{{#hero}}
+    <h2>Stats</h2>
+    {{#stats}}
+        {{#entrySet}}
+        <h4>{{key}} : {{value}}</h4>
+        {{/entrySet}}
+    {{/stats}}
+    <h2>Stuff</h2>
+    {{#stuff}}
+        {{#entrySet}}
+        <h4>{{key}} : {{value.name}}</h4>
+        {{/entrySet}}
+    {{/stuff}}
+{{/hero}}
+{{#inventaire}}
+    <p>{{.}}</p>
+{{/inventaire}}
+</body>
+</html>
