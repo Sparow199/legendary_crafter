@@ -76,21 +76,24 @@ public class AppController {
     @RequestMapping(value = "/hero/{id}", method = RequestMethod.POST)
     public String equipHero(Model model, Principal user, @PathVariable String id,@RequestParam String itemId, @RequestParam String methode){
         String name=user.getName();
-        List<BasicItem> itemList = userService.findById(name).getItems();
+        List<BasicItem> itemList = new ArrayList<>();
 
         switch (methode) {
             case "equip": {
                 BasicItem basicItem = itemService.findById(itemId, name);
                 heroService.stuffHero(heroService.findById(id, name), basicItem, name);
+                itemList = userService.findById(name).getItems();
                 break;
             }
             case "delete": {
                 BasicItem basicItem = itemService.findById(itemId, name);
                 itemService.deleteItem(basicItem, name);
+                itemList = userService.findById(name).getItems();
                 break;
             }
             case "create":
                 itemService.createItem(name);
+                itemList = userService.findById(name).getItems();
                 break;
             case "legendary":
                 List<BasicItem> tmp = new ArrayList<>();
