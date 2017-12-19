@@ -97,6 +97,7 @@ public class AppController {
                 break;
             case "legendary":
                 List<BasicItem> tmp = new ArrayList<>();
+                itemList = userService.findById(name).getItems();
                 for (BasicItem item : itemList) {
                     if (item.getRarity() == BasicItem.Rarity.Legendary) {
                         tmp.add(item);
