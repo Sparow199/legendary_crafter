@@ -2,24 +2,115 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="icon" type="image/png" href="/img/gift.png" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Legendary Crafter</title>
 </head>
 <body>
-    <h1>Hero : {{hero.name}}</h1>
-    <h2>Player : {{userName}}</h2>
-    {{#hero}}
-        <h2>Stats</h2>
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <ul class="nav navbar-nav">
+
+            <li>
+                <a href="/">
+                    <span class="glyphicon glyphicon-gift"></span> Legendary Crafter
+                </a>
+            </li>
+
+            <li>
+                <a href="/app/list/">
+                    <span class="glyphicon glyphicon-th"></span> Game Heros
+                </a>
+            </li>
+        </ul>
+
+
+        <ul class="nav navbar-nav navbar-right">
+
+            <li><a href="/app/"><span class="glyphicon glyphicon-user"></span>
+            </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+
+
+<div class="container">
+
+    <div class="table-responsive">
+
+        <h1>Hero : {{hero.name}}</h1>
+        <h2>Player : {{userName}}</h2>
+
+        <table class="table">
+            <thead>
+            <tr class="info">
+                <th>Hero</th>
+                <th>Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{#heroes}}
+            <tr  class="success">
+                <td>{{name}}</td>
+                <td><a href="/app/hero/{{name}}" class="btn btn-primary" role="button">Show</a></td>
+            </tr>
+            {{/heroes}}
+            </tbody>
+        </table>
+    </div>
+
+    
+{{#hero}}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr class="info">
+            <th>Stats</th>
+        </tr>
+        </thead>
+        <tbody>
+
         {{#stats}}
-            {{#entrySet}}
-            <h4>{{key}} : {{value}}</h4>
-            {{/entrySet}}
+        {{#entrySet}}
+        <tr class="success">
+            <td>{{key}} : {{value}}</td>
+        </tr>
+        {{/entrySet}}
         {{/stats}}
-        <h2>Stuff</h2>
+        </tbody>
+    </table>
+</div>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr class="info">
+            <th>Stuff</th>
+        </tr>
+        </thead>
+        <tbody>
+
         {{#stuff}}
-            {{#entrySet}}
-            <h4>{{key}} : {{value.name}} {{value.durability}} {{value.stats}}</h4>
-            {{/entrySet}}
+        {{#entrySet}}
+        <tr  class="success">
+            <td>{{key}} : {{value.name}} {{value.durability}} {{value.stats}}</td>
+        </tr>
+        {{/entrySet}}
         {{/stuff}}
-    {{/hero}}
+        </tbody>
+    </table>
+</div>
+{{/hero}}
+
+</div>
+
 </body>
 </html>
