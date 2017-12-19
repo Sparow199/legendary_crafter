@@ -2,41 +2,139 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="icon" type="image/png" href="/img/gift.png" />
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Legendary Crafter</title>
 </head>
 <body>
-<h1>Vive {{hero.name}}</h1>
-{{#hero}}
-    <h2>Stats</h2>
-    {{#stats}}
-        {{#entrySet}}
-        <h4>{{key}} : {{value}}</h4>
-        {{/entrySet}}
-    {{/stats}}
-    <h2>Stuff</h2>
-    {{#stuff}}
-        {{#entrySet}}
-        <h4>{{key}} : {{value.name}} {{value.durability}} {{value.stats}}</h4>
-        {{/entrySet}}
-    {{/stuff}}
-{{/hero}}
-{{#hero}}
-<form action="/app/hero/{{name}}" method="post">
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <ul class="nav navbar-nav">
+
+            <li>
+                <a href="/">
+                    <span class="glyphicon glyphicon-gift"></span> Legendary Crafter
+                </a>
+            </li>
+
+            <li>
+                <a href="/app/list/">
+                    <span class="glyphicon glyphicon-th"></span> Game Heros
+                </a>
+            </li>
+        </ul>
+
+
+        <ul class="nav navbar-nav navbar-right">
+
+            <li><a href="/app/"><span class="glyphicon glyphicon-user"></span>
+            </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+
+    <h1>Vive {{hero.name}}</h1>
+
+    {{#hero}}
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="info">
+                <th>Stats</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {{#stats}}
+            {{#entrySet}}
+            <tr class="success">
+                <td>{{key}} : {{value}}</td>
+            </tr>
+            {{/entrySet}}
+            {{/stats}}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="info">
+                <th>Stuff</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {{#stuff}}
+            {{#entrySet}}
+            <tr  class="success">
+                <td>{{key}} : {{value.name}} {{value.durability}} {{value.stats}}</td>
+            </tr>
+            {{/entrySet}}
+            {{/stuff}}
+            </tbody>
+        </table>
+    </div>
     {{/hero}}
-    <input type="hidden" value="" name="itemId" />
-    <button type="submit" name="methode" value="create" class="btn-link">create a new item</button>
-    <button type="submit" name="methode" value="legendary" class="btn-link">show only legendary</button>
-</form>
-{{#inventaire}}
-    <p>{{slots}} {{name}} {{durability}} {{rarity}} {{stats}}
+
+    <div class="card card-container">
         {{#hero}}
-        <form action="/app/hero/{{name}}" method="post">
-        {{/hero}}
-            <input type="hidden" value={{id}} name="itemId" />
-            <button type="submit" name="methode" value="equip" class="btn-link">equip</button>
-            <button type="submit" name="methode" value="delete" class="btn-link">delete</button>
-        </form>
-    </p>
-{{/inventaire}}
+        <form class="form-signin" method="post" action="/app/hero/{{name}}">
+            {{/hero}}
+            <input type="hidden" value="" name="itemId" />
+            <button class="btn btn-lg btn-success btn-block btn-signin" name="methode" type="submit" value="create">Create a new item</button>
+            <button class="btn btn-lg btn-success btn-block btn-signin" name="methode" type="submit" value="legendary">Show only legendary</button>
+        </form><!-- /form -->
+    </div><!-- /card-container -->
+
+
+
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr class="info">
+                <th>Slots</th>
+                <th>Name</th>
+                <th>Durability</th>
+                <th>Rarity</th>
+                <th>Stats</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            {{#inventaire}}
+            <tr class="success">
+                <td>{{slots}}</td>
+                <td>{{name}}</td>
+                <td>{{durability}}</td>
+                <td>{{rarity}}</td>
+                <td>{{stats}}</td>
+                <td>
+                    {{#hero}}
+                    <form action="/app/hero/{{name}}" method="post">
+                        {{/hero}}
+                        <input type="hidden" value={{id}} name="itemId" />
+                        <button type="submit" name="methode" value="equip" class="btn-success">equip</button>
+                        <button type="submit" name="methode" value="delete" class="btn-danger">delete</button>
+                    </form>
+                </td>
+            </tr>
+            {{/inventaire}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 </body>
 </html>
